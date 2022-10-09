@@ -1,32 +1,63 @@
 import { WebApp } from 'meteor/webapp';
 
+function checkIbanNumber(possibleIbanNumber){
+
+  return ({
+    
+  })
+}
+
 Meteor.startup(() => {
-  console.log("is ibanhumber running ont he server ???? ")
   WebApp.connectHandlers.use('/checkIbanNumber', (req, res, next) => {
-    console.log("!!!!!!here is the server trying to do something ", req)
-    res.writeHead(200);
-    res.end(`Hello world from: the server`);
-    // req.on(
-    //   'data',
-    //   Meteor.bindEnvironment((data) => {
-    //     console.log('here is the data ', data);
-    //     let string = data.toString();
-    //     const stringArray = string.split('application/json');
-    //     const correctStringArray = stringArray[1].split('------');
-    //     const possibleIbanNumber= JSON.parse(correctStringArray[0]);
+    let isCountryCodeValid = false
+    let isTwoDigitIdentifierValid = false 
+    let isBankCodeValid = false
+    let isAccountCodeValid = false 
+    req.on(
+      'data',
+      Meteor.bindEnvironment((data) => {
+        let string = data.toString();
+        const possibleIbanNumber= JSON.parse(string);
+        console.log("SER here is the possible iban number ", possibleIbanNumber)
+        // do the check
+        const countryCode = possibleIbanNumber.number.slice(0,2)
+        const twoDigitIdentifier = possibleIbanNumber.number.slice(2,4)
+        const bankCode = possibleIbanNumber.number.slice(4,9)
+        const accountNumber = possibleIbanNumber.number.slice(9)
 
-    //     //  do something with the newDataObject;
-    //     console.log("here is the possible iban number ", possibleIbanNumber)
-    //   }),
-    // );
+        console.log("here are the parts" , 
+          countryCode,
+          twoDigitIdentifier,
+          bankCode,
+          accountNumber
+        )
 
-    // req.on(
-    //   'end',
-    //   Meteor.bindEnvironment(() => {
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.writeHead(200);
-    //     res.end(JSON.stringify({ status: 'ok' }));
-    //   }),
-    // );
+        if(countryCode ==="LI" ) isCountryCodeValid = true
+        if(!isNaN(twoDigitIdentifier)) isTwoDigitIdentifierValid = true
+        if(!isNaN(bankCode)) isBankCodeValid = true
+        if (accountNumber.match(/^[0-9a-z]+$/)) isAccountCodeValid = true
+        console.log("here are the tf values ", 
+          isCountryCodeValid,
+          isTwoDigitIdentifierValid,
+          isBankCodeValid,
+          isAccountCodeValid)
+      }),
+    );
+
+
+    req.on(
+      'end',
+      Meteor.bindEnvironment(() => {
+        res.setHeader('Content-Type', 'application/json');
+        res.writeHead(200);
+        res.end(JSON.stringify({ 
+          status: 'ok', 
+          countryCode: isCountryCodeValid,
+          twoDigitIdentifier: isTwoDigitIdentifierValid,
+          bankCode: isBankCodeValid,
+          accountCode: isAccountCodeValid
+        }));
+      }),
+    );
   });
 });
