@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const MainScreen = () => {
     const [ibanValue, setIbanValue]= useState("");
-
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         if (ibanValue.length !== 21){
@@ -26,14 +26,12 @@ const MainScreen = () => {
              const data = {
                 number : ibanValue
              }
-             console.log("here is the post SEND",  data)
+
              axios.post('/checkIbanNumber', data)
              .then(function (response) {
                 console.log("ANSWER  IS", 
-                    response.data.countryCode,
-                    response.data.twoDigitIdentifier,
-                    response.data.bankCode,
-                    response.data.accountCode);
+                    response.data.bankData
+                )
             })
         };
     }
