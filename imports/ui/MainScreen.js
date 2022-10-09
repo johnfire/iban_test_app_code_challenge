@@ -17,7 +17,7 @@ const MainScreen = () => {
                 confirmButtonText:" OK Cool, I'd like to try again"
             });
         };
-        if(ibanValue.length === 21){
+        if(ibanValue.length === 21 ||ibanValue.length === 21 ){
             Swal.fire({
                 title: 'Possibly correct but we need to send to server for real verification please click to continue',
                 text:"this code has a legal length",
@@ -25,40 +25,45 @@ const MainScreen = () => {
                 confirmButtonText: 'OK Cool, lets keep going'}  
             ).then(()=>{
                 console.log("here is the then function ")
+
+                // verify here :
+
+                // const possibleIbanArray = ibanValue.split(" ")
             });
-            console.log("here is the next steps to sending the code ")
-            const data = {number : ibanValue};
-            // data.append('file', "here is some text");
-            console.log("here is the post SEND",data )
-            // axios.post('https://locahost:3000/checkIbanNumber', data).then(function (response) {
-            //     console.log("ANSWER  IS", response);
-            // })
-            axios({
-                method: 'post',
-                url: 'https://localhost:3000/checkIbanNumber',
-                // url: 'checkIbanNumber',
-
-                data: {
-                    number: ibanValue,
-                },
-            })
-            axios({
-                method: 'post',
-                url: 'https://localhost:3000/checkIbanNumber',
-                // url: 'checkIbanNumber',
-
-                data: {
-                    number: ibanValue,
-                },
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                    "Access-Control-Allow-Origin": "*",
-                },
-            }).then(function (response) {
+             const data = {
+                number : ibanValue
+             }
+             console.log("here is the post SEND",  data)
+             axios.post('https://locahost:3000/checkIbanNumber', data)
+             .then(function (response) {
                 console.log("ANSWER  IS", response);
-            }).catch(function (error) {
-                console.log(error);
-            });
+            })
+            // axios({
+            //     method: 'post',
+            //     url: 'https://localhost:3000/checkIbanNumber',
+            //     // url: 'checkIbanNumber',
+
+            //     data: {
+            //         number: ibanValue,
+            //     },
+            // })
+            // axios({
+            //     method: 'post',
+            //     url: 'https://localhost:3000/checkIbanNumber',
+
+            //     data: {
+            //         number: ibanValue,
+            //     },
+
+            //     headers: {
+            //         'Content-Type': 'text/plain;charset=utf-8',
+            //         "Access-Control-Allow-Origin": "*",
+            //     },
+            // }).then(function (response) {
+            //     console.log("ANSWER  IS", response);
+            // }).catch(function (error) {
+            //     console.log(error);
+            // });
         };
     }
 
