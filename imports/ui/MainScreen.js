@@ -20,7 +20,7 @@ const MainScreen = () => {
         if( ibanValue.length >= 21 ){
              const data = {
                 number : ibanValue
-             }
+             };
 
              axios.post( '/checkIbanNumber', data )
              .then( function (response) {
@@ -37,7 +37,7 @@ const MainScreen = () => {
                         icon: "success",
                         confirmButtonText: 'OK, Cool, lets keep going'}  
                     )  
-                }
+                };
 
                 if(
                     bankData.isCountryCodeValid === false ||
@@ -58,14 +58,14 @@ const MainScreen = () => {
                         icon: "error",
                         confirmButtonText: 'Would you like to play again?'}  
                     )  
-                }  
+                } ; 
             })
         };
-    }
+    };
 
     const handleChange = ( event ) => {
         setIbanValue(event.target.value)
-    }
+    };
 
     return( 
         <>   
