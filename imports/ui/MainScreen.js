@@ -3,35 +3,62 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 
 const MainScreen = () => {
-    const [ibanValue, setIbanValue]= useState("");
-    
-    const handleSubmit = (event) => {
+    const [ibanValue, setIbanValue] = useState("");
+
+    const handleSubmit = ( event ) => {
         event.preventDefault();
-        if (ibanValue.length !== 21){
+
+        if ( ibanValue.length !== 21 ){
             Swal.fire({
                 title: 'Error!',
-                text:"Your code is the wrong length, please try again",
+                text:"Your code is not long enough, please try again",
                 icon: 'error',
                 confirmButtonText:" OK Cool, I'd like to try again"
             });
         };
-        if(ibanValue.length >= 21){
-            Swal.fire({
-                title: 'Possibly correct but we need to send to server for real verification please click to continue',
-                text:"this code has a legal length",
-                icon: "success",
-                confirmButtonText: 'OK Cool, lets keep going'}  
-            )
 
+        if( ibanValue.length >= 21 ){
              const data = {
                 number : ibanValue
              }
 
-             axios.post('/checkIbanNumber', data)
-             .then(function (response) {
-                console.log("ANSWER  IS", 
-                    response.data.bankData
-                )
+             axios.post( '/checkIbanNumber', data )
+             .then( function (response) {
+                const bankData =  response.data.bankData
+                if(
+                    bankData.isCountryCodeValid === true &&
+                    bankData.isTwoDigitIdentifierValid === true &&
+                    bankData.isBankCodeValid === true && 
+                    bankData.isAccountCodeValid === true
+                ){
+                    Swal.fire({
+                        title: 'We HAVE A WINNER ',
+                        text:"This meets the parameters for a legal IBAN number",
+                        icon: "success",
+                        confirmButtonText: 'OK, Cool, lets keep going'}  
+                    )  
+                }
+
+                if(
+                    bankData.isCountryCodeValid === false ||
+                    bankData.isTwoDigitIdentifierValid === false ||
+                    bankData.isBankCodeValid === false ||
+                    bankData.isAccountCodeValid === false
+                ){
+                    const message = `The following fields are incorrect\n: 
+                     ${bankData.isCountryCodeValid ? "" : "Country code is invalid\n"}
+                     ${bankData.isTwoDigitIdentifierValid ? "" : "2 digit identifier is invalid\n"}
+                     ${bankData.isBankCodeValid? "" : "Bankcode is not numeric\n"}
+                     ${bankData.isAccountCodeValid ? "" : "Account is not alphaneumeric\n"}
+                    `
+                    Swal.fire({
+                        title: 'This is not a valid bank number',
+                        text:`This does not meet the parameters for a legal IBAN number\n. 
+                        ${message}`,
+                        icon: "error",
+                        confirmButtonText: 'Would you like to play again?'}  
+                    )  
+                }  
             })
         };
     }
@@ -42,11 +69,11 @@ const MainScreen = () => {
 
     return( 
         <>   
-            <p>IBAN code verification for Lichtenstein.</p>
-            <p>Please note this only checks if this is a code that is possibly used it does not check if this code actually has a known, real bank code in the first 5 digits
+            <p  style={{textAlign: 'center'}} >IBAN code verification for Lichtenstein.</p>
+            <p  style={{textAlign: 'center'}} >Please note this only checks if this is a code that is possibly used it does not check if this code actually has a known, real bank code in the first 5 digits
             </p>
-            <form onSubmit={handleSubmit} >
-                <label htmlFor="iBANCode">Enter a possible valid IBAN code here : </label>
+            <form  style={{textAlign : 'center'}}  onSubmit={handleSubmit} >
+                <label htmlFor="iBANCode">Enter a possible valid IBAN code here: </label>
                 <br/>
                 <input 
                     type="text" 
