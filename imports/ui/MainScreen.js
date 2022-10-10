@@ -32,7 +32,7 @@ const MainScreen = () => {
                     bankData.isAccountCodeValid === true
                 ){
                     Swal.fire({
-                        title: 'We HAVE A WINNER ',
+                        title: 'This is a legal IBN number',
                         text:"This meets the parameters for a legal IBAN number",
                         icon: "success",
                         confirmButtonText: 'OK, Cool, lets keep going'}  
@@ -63,7 +63,7 @@ const MainScreen = () => {
         };
     }
 
-    const handleChange = (event) => {
+    const handleChange = ( event ) => {
         setIbanValue(event.target.value)
     }
 
@@ -73,7 +73,7 @@ const MainScreen = () => {
             <p  style={{textAlign: 'center'}} >Please note this only checks if this is a code that is possibly used it does not check if this code actually has a known, real bank code in the first 5 digits
             </p>
             <form  style={{textAlign : 'center'}}  onSubmit={handleSubmit} >
-                <label htmlFor="iBANCode">Enter a possible valid IBAN code here: </label>
+                <label htmlFor="iBANCode">Enter a possible valid IBAN code here. Do NOT include any black spaces: </label>
                 <br/>
                 <input 
                     type="text" 

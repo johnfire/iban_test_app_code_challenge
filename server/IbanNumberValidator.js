@@ -4,7 +4,7 @@ import { WebApp } from 'meteor/webapp';
 // given how small this program is I dont think its a good idea to do that
 // readablity is better like this.
 
-function checkIbanNumber(possibleIban){
+ export function checkIbanNumber(possibleIban){
   let isCountryCodeValid = false;
   let isTwoDigitIdentifierValid = false ;
   let isBankCodeValid = false;
