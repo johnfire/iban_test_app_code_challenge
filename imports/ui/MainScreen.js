@@ -73,7 +73,7 @@ const MainScreen = () => {
             <p  style={{textAlign: 'center'}} >Please note this only checks if this is a code that is possibly used it does not check if this code actually has a known, real bank code in the first 5 digits
             </p>
             <form  style={{textAlign : 'center'}}  onSubmit={handleSubmit} >
-                <label htmlFor="iBANCode">Enter a possible valid IBAN code here. Do NOT include any black spaces: </label>
+                <label htmlFor="iBANCode">Enter a possible valid IBAN code here. Do NOT include any blank spaces: </label>
                 <br/>
                 <input 
                     type="text" 
