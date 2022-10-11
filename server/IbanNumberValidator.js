@@ -15,10 +15,14 @@ import { WebApp } from 'meteor/webapp';
   const bankCode = possibleIban.number.slice(4,9);
   const accountNumber = possibleIban.number.slice(9);
 
+  // the 2 digit validator as i understand it is always numeric
+  // the bank code as i understand it is always numeric
+  // the bank account is alphaneumeric and 12 digits or capital letters long
+
   if(countryCode ==="LI" ) isCountryCodeValid = true;
   if(!isNaN(twoDigitIdentifier)) isTwoDigitIdentifierValid = true;
   if(!isNaN(bankCode)) isBankCodeValid = true;
-  if (accountNumber.match(/^[0-9a-z]+$/) && accountNumber.length === 12) isAccountCodeValid = true;
+  if (accountNumber.match(/^[0-9A-Z]+$/) && accountNumber.length === 12) isAccountCodeValid = true;
 
   return ({
     isCountryCodeValid,

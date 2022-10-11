@@ -1,5 +1,5 @@
 {
-  "name": "vatapp",
+  "name": "ibanapp",
   "private": true,
   "scripts": {
     "start": "meteor run",

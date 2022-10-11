@@ -49,7 +49,7 @@ const MainScreen = () => {
                      ${bankData.isCountryCodeValid ? "" : "Country code is invalid\n"}
                      ${bankData.isTwoDigitIdentifierValid ? "" : "2 digit identifier is invalid\n"}
                      ${bankData.isBankCodeValid? "" : "Bankcode is not numeric\n"}
-                     ${bankData.isAccountCodeValid ? "" : "Account is not alphaneumeric\n"}
+                     ${bankData.isAccountCodeValid ? "" : "Account is not  capital letters alphaneumeric\n"}
                     `
                     Swal.fire({
                         title: 'This is not a valid bank number',
